@@ -1,0 +1,16 @@
+<!-- tree.component.html -->
+<ul>
+  <ng-container *ngFor="let node of nodes">
+    <li *ngIf="isVisible(node)" [style.padding-left.px]="node.level * 20">
+      <input
+        type="checkbox"
+        [checked]="node.isSelected"
+        (change)="toggleSelection(node)"
+      />
+      <span (click)="toggleNode(node)">
+        {{ node.expandable ? (node.isExpanded ? "-" : "+") : " " }}
+      </span>
+      {{ node.title }}
+    </li>
+  </ng-container>
+</ul>
