@@ -1,14 +1,45 @@
-/* tree.component.css */
-ul {
-  list-style-type: none;
-  padding-left: 0;
+.example-viewport {
+  height: 400px; /* 设置虚拟滚动视口的高度 */
+  border: 1px solid #ccc; /* 可选的：添加边框以更好地看到视口 */
 }
 
-li {
-  margin: 4px 0;
+.mat-tree-node {
+  display: flex;
+  align-items: flex-start;
+  line-height: 20px; /* 调整行高 */
+  padding: 4px 0; /* 调整内边距 */
+  &.focus:focus {
+    border: 1px solid blue;
+  }
+}
+
+.example-tree-invisible {
+  display: none;
+}
+
+mat-icon.mat-icon {
+  font-size: 16px; /* 调整图标大小 */
+  width: 16px;
+  height: 16px;
   cursor: pointer;
 }
 
-input[type="checkbox"] {
-  margin-right: 8px;
+.form-content{
+  height: 60px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+mat-checkbox {
+  margin-left: 0; /* 调整复选框的左边距 */
+  cursor: pointer;
+}
+ul{
+  margin: 0;
+  padding-inline-start: 24px;
+}
+li{
+  list-style-type: none;
 }
