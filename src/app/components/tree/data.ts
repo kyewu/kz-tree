@@ -1,4 +1,4 @@
-export const data = [
+export const DATA = [
   {
     id: 1,
     parentId: 0,
@@ -45,7 +45,7 @@ export const data = [
           {
             id: 4,
             parentId: 2,
-            displayName: 'JDK17',
+            displayName: 'JDK21',
             recipeName: null,
             description: null,
             createdDate: '2021-10-20T00:00:00.000Z',
@@ -94,6 +94,21 @@ export const data = [
         id: 4,
         parentId: 2,
         displayName: 'JDK21',
+        recipeName: null,
+        description: null,
+        createdDate: '2021-10-20T00:00:00.000Z',
+        createdBy: 'admin',
+        modificationDate: '2021-10-20T00:00:00.000Z',
+        modifiedBy: 'admin',
+        active: true,
+        topLevel: false,
+        recipe: true,
+        children: []
+      },
+      {
+        id: 5,
+        parentId: 2,
+        displayName: 'JDK22',
         recipeName: null,
         description: null,
         createdDate: '2021-10-20T00:00:00.000Z',
