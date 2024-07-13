@@ -18,7 +18,6 @@ export class TreeComponent implements OnInit {
   nodes: TreeNode[] = [];
   filteredNodes: TreeNode[] = [];
   searchTerm: string = '';
-  focusedUUID: string = '';
 
   constructor(private treeService: TreeService) {}
 
@@ -28,26 +27,18 @@ export class TreeComponent implements OnInit {
       this.nodes = nodes;
       this.filteredNodes = nodes;
     });
-    this.treeService.focusedNode$.subscribe(uuid => {
-      this.focusedUUID = uuid ?? '';
-    })
   }
 
   searchNodes(): void {
     this.filteredNodes = this.treeService.searchNodes(this.searchTerm);
   }
 
-  onNodeSelected(uuid: string): void {
-    this.treeService.updateSelectedNode(uuid)
+  onNodeSelected(selectedNode: TreeNode): void {
+    this.treeService.selectNode(selectedNode)
   }
 
-  // onNodeSelected(selectedNode: TreeNode): void {
-    
-  //   this.treeService.selectNode(selectedNode);
-  // }
-
   onNodeUpdated(updatedNode: TreeNode): void {
-    updatedNode['modifiedBy'] = 'User 1';
+    updatedNode['modifiedBy'] = `User ${Math.floor(Math.random() * 10)}`;
     this.treeService.updateNode(updatedNode);
   }
 }

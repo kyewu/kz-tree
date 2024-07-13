@@ -1,13 +1,13 @@
 <li>
-  <div class="node-content" [ngClass]="{ 'selected': node.uuid === focusedUUID }" [style.paddingLeft.px]="(node.level - 1) * 24" (click)="selectNode()">
-    <span *ngIf="node.children && node.children.length" (click)="toggleExpand()">{{node.expanded ? '-' : '+'}}</span>
+  <div class="node-content" [class.selected]="node.selected" [style.paddingLeft.px]="(node.level - 1) * 24" (click)="selectNode()">
+    <span class="node-expand" *ngIf="node.children && node.children.length" (click)="toggleExpand()">{{node.expanded ? '-' : '+'}}</span>
     <span>{{ node.displayName }}-{{node['modifiedBy']}}</span>
     <!-- <input type="checkbox" [(ngModel)]="node.selected" (change)="selectNode()" /> -->
     <button (click)="updateNode()">Update</button>
   </div>
   <ul *ngIf="node.expanded">
     <ng-container *ngFor="let child of node.children">
-      <tree-node [node]="child" (nodeSelected)="nodeSelected.emit($event)" (nodeUpdated)="nodeUpdated.emit($event)" [focusedUUID]="focusedUUID"></tree-node>
+      <tree-node [node]="child" (nodeSelected)="nodeSelected.emit($event)" (nodeUpdated)="nodeUpdated.emit($event)"></tree-node>
     </ng-container>
   </ul>
 </li>

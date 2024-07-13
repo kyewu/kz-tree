@@ -14,8 +14,7 @@ import { TreeService } from './tree.service';
 export class TreeNodeComponent{
   
   @Input() node!: TreeNode;
-  @Input() focusedUUID!: string;
-  @Output() nodeSelected = new EventEmitter<string>();
+  @Output() nodeSelected = new EventEmitter<TreeNode>();
   @Output() nodeUpdated = new EventEmitter<TreeNode>();
 
   constructor(private treeService: TreeService) {}
@@ -25,8 +24,7 @@ export class TreeNodeComponent{
   }
 
   selectNode(): void {
-    // this.focusedUUID = this.node.uuid;
-    this.nodeSelected.emit(this.node.uuid);
+    this.nodeSelected.emit(this.node);
   }
 
   updateNode(): void {

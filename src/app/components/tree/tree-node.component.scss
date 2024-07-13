@@ -3,6 +3,19 @@ ul{
   padding-inline-start: 0;
 }
 
-.selected{
-  background-color: #f5f5f5;
+.node-content{
+  cursor: pointer;
+  padding: 2px 0;
+  &:hover {
+    background-color: lightskyblue;
+    transition: all 0.3s ease-in-out;
+  }
+  &.selected{
+    background-color: skyblue;
+    transition: all 0.3s ease-in-out;
+  }
+  .node-expand{
+    padding: 0 5px;
+  }
 }
+

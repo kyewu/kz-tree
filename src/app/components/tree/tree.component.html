@@ -3,6 +3,6 @@
 </div>
 <ul>
   <ng-container *ngFor="let node of filteredNodes">
-    <tree-node [node]="node" (nodeSelected)="onNodeSelected($event)" (nodeUpdated)="onNodeUpdated($event)" [focusedUUID]="focusedUUID"></tree-node>
+    <tree-node [node]="node" (nodeSelected)="onNodeSelected($event)" (nodeUpdated)="onNodeUpdated($event)"></tree-node>
   </ng-container>
 </ul>
