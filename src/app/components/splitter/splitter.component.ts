@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterContentInit, AfterViewInit, Component, ContentChildren, ElementRef, Input, OnDestroy, QueryList, TemplateRef, ViewContainerRef } from '@angular/core';
+import { AfterContentInit, Component, ContentChildren, ElementRef, Input, OnDestroy, QueryList, TemplateRef, ViewContainerRef } from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
 import { takeUntil, map } from 'rxjs/operators';
 
@@ -62,14 +62,10 @@ export class SplitterComponent implements AfterContentInit, OnDestroy {
     const newPrevSize = this.clamp(startPrevSize + delta, this.minSize, containerSize - this.minSize - this.gutterSize);
     const newNextSize = containerSize - newPrevSize - this.gutterSize;
 
-    if(this.horizontal()) {
-      this.prevPanelStyle = { flex: `0 0 ${newPrevSize}px` };
-      this.nextPanelStyle = { flex: `0 0 ${newNextSize}px` };
-    }else {
-      this.prevPanelStyle = { flex: `0 0 ${newPrevSize}px` };
-      this.nextPanelStyle = { flex: `0 0 ${newNextSize}px` };
-      console.log(`${newPrevSize}, ${newNextSize}, ${containerSize}`);
-    }
+    // this.prevPanelStyle = { flex: `0 0 ${newPrevSize}px` };
+    // this.nextPanelStyle = { flex: `0 0 ${newNextSize}px` };
+    this.prevPanelStyle = { flex: `0 0 ${newPrevSize}px` };
+    this.nextPanelStyle = { flex: `0 0 ${newNextSize}px` };
   }
 
   private clamp(value: number, min: number, max: number) {

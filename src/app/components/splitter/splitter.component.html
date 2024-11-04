@@ -1,8 +1,8 @@
 <div class="splitter-container" [ngClass]="{ 'horizontal': direction === 'horizontal', 'vertical': direction === 'vertical' }">
   <ng-container *ngFor="let panel of panels; let i = index">
-    <div class="pane" [ngStyle]="i === 0 ? prevPanelStyle : nextPanelStyle">
+    <div class="splitter-panel" [ngStyle]="i === 0 ? prevPanelStyle : nextPanelStyle">
       <ng-container *ngTemplateOutlet="panel"></ng-container>
     </div>
-    <div *ngIf="i !== panels.length - 1" class="splitter-bar" [style.cursor]="horizontal() ? 'col-resize' : 'ns-resize'" (mousedown)="onMouseDown($event)"></div>
+    <div *ngIf="i === 0" class="splitter-bar" [style.cursor]="horizontal() ? 'col-resize' : 'row-resize'" (mousedown)="onMouseDown($event)"></div>
   </ng-container>
 </div>
