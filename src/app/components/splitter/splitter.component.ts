@@ -13,9 +13,11 @@ import { takeUntil, map } from 'rxjs/operators';
 export class SplitterComponent implements AfterContentInit, OnDestroy {
   @ContentChildren(TemplateRef) panels!: QueryList<TemplateRef<any>>;
   @Input() direction: 'horizontal' | 'vertical' = 'horizontal';
-
+  @Input() gutterSize = 5;
+  @Input() minSize = 0;
   prevPanelStyle = {};
   nextPanelStyle = {};
+
 
   private subscription: Subscription = new Subscription();
 
@@ -33,44 +35,45 @@ export class SplitterComponent implements AfterContentInit, OnDestroy {
     event.preventDefault();
     const container = this.host.nativeElement.getBoundingClientRect();
     const prevEl = (event.target as HTMLElement).previousElementSibling as HTMLElement;
-    const nextEl = (event.target as HTMLElement).nextElementSibling as HTMLElement;
-
-    const startX = event.clientX;
-    const startY = event.clientY;
-    const startPrevSize = prevEl.getBoundingClientRect().width;
-    const startNextSize = nextEl.getBoundingClientRect().width;
-
-
+    // const startX = event.clientX;
+    const startOffset = this.horizontal() ? event.clientX : event.clientY;
+    const startPrevSize = this.horizontal() ? prevEl.getBoundingClientRect().width : prevEl.getBoundingClientRect().height;
+    // const startPrevSize = prevEl.getBoundingClientRect().width;
     const mouseMove$ = fromEvent<MouseEvent>(document, 'mousemove');
     const mouseUp$ = fromEvent<MouseEvent>(document, 'mouseup');
 
     const dragSubscription = mouseMove$.pipe(
       takeUntil(mouseUp$),
-      map(event => {
-        return {
-          deltaX: event.clientX - startX
-        }
-      })
-    ).subscribe(({ deltaX }) => {
-      if (this.horizontal()) {
-        let newPrevSize = startPrevSize + deltaX;
-        let newNextSize = startNextSize - deltaX;
-        // 限制拖拽范围，防止面板大小超出容器边界
-        const minPanelSize = 0; // 设置面板的最小宽度
-
-        if (newPrevSize < minPanelSize) {
-          newPrevSize = minPanelSize;
-          newNextSize = container.width - minPanelSize - 5;
-        } else if (newNextSize < minPanelSize) {
-          newNextSize = minPanelSize;
-          newPrevSize = container.width - minPanelSize - 5;
-        }
-
-        this.prevPanelStyle = { flex: `0 0 ${newPrevSize}px` };
-        this.nextPanelStyle = { flex: `0 0 ${newNextSize}px` };
-      }
+      map(event => (this.horizontal() ? event.clientX : event.clientY) - startOffset)
+    ).subscribe((delta) => {
+        this.updatePanelSizes(startPrevSize, delta, this.horizontal() ? container.width : container.height);
     });
+
     this.subscription.add(dragSubscription);
+  }
+
+  /**
+   * Updates the panel sizes by changing the flex basis of the panels.
+   * @param startPrevSize The initial size of the previous panel.
+   * @param deltaX The change in the X position of the mouse.
+   * @param containerWidth The width of the container.
+   */
+  private updatePanelSizes(startPrevSize: number, delta: number, containerSize: number) {
+    const newPrevSize = this.clamp(startPrevSize + delta, this.minSize, containerSize - this.minSize - this.gutterSize);
+    const newNextSize = containerSize - newPrevSize - this.gutterSize;
+
+    if(this.horizontal()) {
+      this.prevPanelStyle = { flex: `0 0 ${newPrevSize}px` };
+      this.nextPanelStyle = { flex: `0 0 ${newNextSize}px` };
+    }else {
+      this.prevPanelStyle = { flex: `0 0 ${newPrevSize}px` };
+      this.nextPanelStyle = { flex: `0 0 ${newNextSize}px` };
+      console.log(`${newPrevSize}, ${newNextSize}, ${containerSize}`);
+    }
+  }
+
+  private clamp(value: number, min: number, max: number) {
+    return Math.max(min, Math.min(max, value));
   }
 
   horizontal(): boolean {
